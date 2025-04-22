@@ -4,10 +4,38 @@
 <head>
   <meta charset="UTF-8">
   <title>Promo Combustible</title>
-  <style>
-    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: #f4f4f4; }
-    .resultado { font-size: 24px; margin-top: 40px; }
-  </style>
+ <style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 50px;
+    background: #FFB400; /* amarillo oscuro tipo DeWalt */
+  }
+
+  .resultado {
+    font-size: 36px;
+    font-weight: bold;
+    color: white;
+    margin-top: 40px;
+    text-shadow:
+      -1px -1px 0 black,
+       1px -1px 0 black,
+      -1px  1px 0 black,
+       1px  1px 0 black;
+  }
+
+  .ganador {
+    animation: ganadorFlash 1s infinite;
+  }
+
+  @keyframes ganadorFlash {
+    0%   { transform: scale(1); text-shadow: 0 0 5px white; }
+    25%  { transform: scale(1.1); text-shadow: 0 0 15px black; }
+    50%  { transform: scale(1.2); text-shadow: 0 0 25px red; }
+    75%  { transform: scale(1.1); text-shadow: 0 0 15px black; }
+    100% { transform: scale(1); text-shadow: 0 0 5px white; }
+  }
+</style>
 </head>
 <body>
   <h1>¡Promo Combustible!</h1>

@@ -21,7 +21,7 @@
 
     h1 {
       font-family: 'Bangers', cursive;
-      font-size: 72px;
+      font-size: 80px;
       color: black;
       text-shadow:
         -1px -1px 0 white,
@@ -33,7 +33,7 @@
 
     .resultado {
       font-family: 'Bangers', cursive;
-      font-size: 44px;
+      font-size: 55px;
       font-weight: normal;
       color: white;
       margin-top: 40px;
@@ -92,7 +92,7 @@
         } else {
           const entrada = data[0];
           if (entrada.usado) {
-            resultado.textContent = "Este código ya fue usado.";
+            resultado.textContent = "¡Uy! ¡Estuviste cerca! Gracias por participar.";
           } else {
             const usadoAhora = new Date().toISOString();
             fetch("https://oybokejynjdebqbtcujp.supabase.co/rest/v1/codigos?codigo=eq." + codigo, {
@@ -113,7 +113,7 @@
               resultado.textContent = "🎉 ¡Felicidades! Ganaste 5 litros de combustible 🎉";
               resultado.classList.add("ganador");
             } else {
-              resultado.textContent = "Uy, ¡estuviste cerca! Gracias por participar.";
+              resultado.textContent = "¡Uy! ¡Estuviste cerca! Gracias por participar.";
             }
           }
         }

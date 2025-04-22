@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Promo Combustible</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: #f4f4f4; }
+    .resultado { font-size: 24px; margin-top: 40px; }
+  </style>
+</head>
+<body>
+  <h1>¡Promo Combustible!</h1>
+  <div class="resultado" id="resultado">Cargando...</div>
+
+  <script>
+    const resultado = document.getElementById("resultado");
+    const urlParams = new URLSearchParams(window.location.search);
+    const codigo = urlParams.get("codigo");
+
+    if (!codigo) {
+      resultado.textContent = "Código no encontrado en la URL.";
+    } else {
+      fetch("https://oybokejynjdebqbtcujp.supabase.co/rest/v1/codigos?codigo=eq." + codigo, {
+        headers: {
+          "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95Ym9rZWp5bmpkZWJxYnRjdWpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUzNDE5MzIsImV4cCI6MjA2MDkxNzkzMn0.imGAsHVCCTHq_GJrEZigLULrCzqfjopVhh-5rrOaae0",
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95Ym9rZWp5bmpkZWJxYnRjdWpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUzNDE5MzIsImV4cCI6MjA2MDkxNzkzMn0.imGAsHVCCTHq_GJrEZigLULrCzqfjopVhh-5rrOaae0",
+          "Content-Type": "application/json"
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.length === 0) {
+          resultado.textContent = "Código inválido.";
+        } else {
+          const entrada = data[0];
+          if (entrada.usado) {
+            resultado.textContent = "Este código ya fue usado.";
+          } else {
+            const usadoAhora = new Date().toISOString();
+            fetch("https://oybokejynjdebqbtcujp.supabase.co/rest/v1/codigos?codigo=eq." + codigo, {
+              method: "PATCH",
+              headers: {
+                "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95Ym9rZWp5bmpkZWJxYnRjdWpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUzNDE5MzIsImV4cCI6MjA2MDkxNzkzMn0.imGAsHVCCTHq_GJrEZigLULrCzqfjopVhh-5rrOaae0",
+                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95Ym9rZWp5bmpkZWJxYnRjdWpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUzNDE5MzIsImV4cCI6MjA2MDkxNzkzMn0.imGAsHVCCTHq_GJrEZigLULrCzqfjopVhh-5rrOaae0",
+                "Content-Type": "application/json",
+                "Prefer": "return=representation"
+              },
+              body: JSON.stringify({
+                usado: true,
+                fecha_uso: usadoAhora
+              })
+            });
+
+            if (entrada.ganador) {
+              resultado.textContent = "¡Felicidades! Ganaste 5 litros de combustible.";
+            } else {
+              resultado.textContent = "Gracias por participar. ¡Suerte para la próxima!";
+            }
+          }
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        resultado.textContent = "Hubo un error al verificar el código.";
+      });
+    }
+  </script>
+</body>
+</html>
